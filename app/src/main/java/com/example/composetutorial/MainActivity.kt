@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.composetutorial
 
 import android.os.Bundle
@@ -24,7 +26,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,8 +64,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
                         MessageList(messages = messageList, user_id = 1)
+                        InputField()
                     }
                 }
             }
@@ -143,6 +150,26 @@ fun MessageList(messages: List<Message>, user_id: Int) {
                     MessageCard(message = message, user_id = user_id)
                 }
             }
+        }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun InputField() {
+    ComposeTutorialTheme {
+        Surface(
+            color = MaterialTheme.colorScheme.background,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            var text by remember {
+                mutableStateOf("")
+            }
+            OutlinedTextField(value = text,
+                modifier = Modifier.fillMaxWidth(),
+                onValueChange = {
+                    text = it
+                },
+                label = { Text(text = "Type your Message...") })
         }
     }
 }
